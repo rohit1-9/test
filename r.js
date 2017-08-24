@@ -462,7 +462,7 @@ $(document).ready(function () {
         console.log('playser state change');
         console.log(event);
 
-        if (event.data == 1) {
+        if (event.data == 2) {
             if (typeof player != "undefined" && typeof player.getCurrentTime != "undefined") {
                 if (firstStateChange) {
                     markVideoAsStarted();
