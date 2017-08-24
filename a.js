@@ -462,7 +462,18 @@ $(document).ready(function () {
         console.log('playser state change');
         console.log(event);
 
-      
+        if (event.data == 5) {
+            if (typeof player != "undefined" && typeof player.getCurrentTime != "undefined") {
+                if (firstStateChange) {
+                    markVideoAsStarted();
+                    restartedValue = 0;
+                    firstStateChange = 0;
+                    timeWhenVideoStarted = Math.floor(player.getCurrentTime());
+                }
+                currenttime = (Math.floor(player.getCurrentTime()) + restartedValue);
+            }
+            timeout = setTimeout(timer, 1000);
+        } else {
             if (event.data == 0) {
                 restartedValue = currenttime;
                 var temp = {};
@@ -482,19 +493,10 @@ $(document).ready(function () {
                 //}, 1000);
 
             } else {
-               if (typeof player != "undefined" && typeof player.getCurrentTime != "undefined") {
-                if (firstStateChange) {
-                    markVideoAsStarted();
-                    restartedValue = 0;
-                    firstStateChange = 0;
-                    timeWhenVideoStarted = Math.floor(player.getCurrentTime());
-                }
-                currenttime = (Math.floor(player.getCurrentTime()) + restartedValue);
-            }
-            timeout = setTimeout(timer, 1000);
+                console.log('paused');
             }
             clearTimeout(timeout);
-        
+        }
     }
 
     function timer() {
