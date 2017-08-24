@@ -29,7 +29,7 @@ $(document).ready(function () {
             }
         });
     };
-// 2. This code loads the IFrame Player API code asynchronously..
+// 2. This code loads the IFrame Player API code asynchronously.
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -461,7 +461,19 @@ $(document).ready(function () {
     function onPlayerStateChange(event) {
         console.log('playser state change');
         console.log(event);
-   
+
+        if (event.data == 2) {
+            if (typeof player != "undefined" && typeof player.getCurrentTime != "undefined") {
+                if (firstStateChange) {
+                    markVideoAsStarted();
+                    restartedValue = 0;
+                    firstStateChange = 0;
+                    timeWhenVideoStarted = Math.floor(player.getCurrentTime());
+                }
+                currenttime = (Math.floor(player.getCurrentTime()) + restartedValue);
+            }
+            timeout = setTimeout(timer, 1000);
+        } else {
             if (event.data == 0) {
                 restartedValue = currenttime;
                 var temp = {};
@@ -481,19 +493,10 @@ $(document).ready(function () {
                 //}, 1000);
 
             } else {
-                 if (typeof player != "undefined" && typeof player.getCurrentTime != "undefined") {
-                if (firstStateChange) {
-                    markVideoAsStarted();
-                    restartedValue = 0;
-                    firstStateChange = 0;
-                    timeWhenVideoStarted = Math.floor(player.getCurrentTime());
-                }
-                currenttime = (Math.floor(player.getCurrentTime()) + restartedValue);
-            }
-            timeout = setTimeout(timer, 1000);
+                console.log('paused');
             }
             clearTimeout(timeout);
-        
+        }
     }
 
     function timer() {
