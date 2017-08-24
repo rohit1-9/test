@@ -461,19 +461,7 @@ $(document).ready(function () {
     function onPlayerStateChange(event) {
         console.log('playser state change');
         console.log(event);
-
-        if (event.data !=0) {
-            if (typeof player != "undefined" && typeof player.getCurrentTime != "undefined") {
-                if (firstStateChange) {
-                    markVideoAsStarted();
-                    restartedValue = 0;
-                    firstStateChange = 0;
-                    timeWhenVideoStarted = Math.floor(player.getCurrentTime());
-                }
-                currenttime = (Math.floor(player.getCurrentTime()) + restartedValue);
-            }
-            timeout = setTimeout(timer, 1000);
-        } else {
+   
             if (event.data == 0) {
                 restartedValue = currenttime;
                 var temp = {};
@@ -493,10 +481,19 @@ $(document).ready(function () {
                 //}, 1000);
 
             } else {
-                console.log('paused');
+                 if (typeof player != "undefined" && typeof player.getCurrentTime != "undefined") {
+                if (firstStateChange) {
+                    markVideoAsStarted();
+                    restartedValue = 0;
+                    firstStateChange = 0;
+                    timeWhenVideoStarted = Math.floor(player.getCurrentTime());
+                }
+                currenttime = (Math.floor(player.getCurrentTime()) + restartedValue);
+            }
+            timeout = setTimeout(timer, 1000);
             }
             clearTimeout(timeout);
-        }
+        
     }
 
     function timer() {
